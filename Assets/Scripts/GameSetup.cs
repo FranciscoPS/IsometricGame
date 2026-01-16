@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class GameSetup : MonoBehaviour
 {
@@ -347,13 +348,13 @@ public class GameSetup : MonoBehaviour
             Transform scoreText = canvas.transform.Find("ScoreText");
             if (scoreText != null)
             {
-                gm.scoreText = scoreText.GetComponent<UnityEngine.UI.Text>();
+                gm.scoreText = scoreText.GetComponent<TextMeshProUGUI>();
             }
 
             Transform healthText = canvas.transform.Find("HealthText");
             if (healthText != null)
             {
-                gm.healthText = healthText.GetComponent<UnityEngine.UI.Text>();
+                gm.healthText = healthText.GetComponent<TextMeshProUGUI>();
             }
 
             Transform gameOverPanel = canvas.transform.Find("GameOverPanel");
@@ -364,7 +365,7 @@ public class GameSetup : MonoBehaviour
                 Transform finalScoreText = gameOverPanel.Find("FinalScoreText");
                 if (finalScoreText != null)
                 {
-                    gm.finalScoreText = finalScoreText.GetComponent<UnityEngine.UI.Text>();
+                    gm.finalScoreText = finalScoreText.GetComponent<TextMeshProUGUI>();
                 }
 
                 Transform restartButton = gameOverPanel.Find("RestartButton");

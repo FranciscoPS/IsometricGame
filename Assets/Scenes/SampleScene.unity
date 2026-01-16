@@ -413,8 +413,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
   segmentLength: 20
-  activeSegments: 3
-  scrollSpeed: 5
+  activeSegments: 5
+  scrollSpeed: 6
   player: {fileID: 1276265891}
 --- !u!4 &601684748
 Transform:

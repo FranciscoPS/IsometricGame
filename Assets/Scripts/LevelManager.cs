@@ -5,7 +5,7 @@ public class LevelManager : MonoBehaviour
 {
     [Header("Segment Settings")]
     public float segmentLength = 20f;
-    public int activeSegments = 3;
+    public int activeSegments = 5;
     public float scrollSpeed = 5f;
 
     [Header("Player Reference")]
@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour
     {
         InitializeReferences();
 
-        nextSegmentZ = 0f;
+        nextSegmentZ = -segmentLength;
         
         for (int i = 0; i < activeSegments; i++)
         {
@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
         }
         segments.Clear();
         
-        nextSegmentZ = 0f;
+        nextSegmentZ = -segmentLength;
         segmentCounter = 0;
         
         InitializeReferences();
@@ -92,7 +92,7 @@ public class LevelManager : MonoBehaviour
         {
             GameObject firstSegment = segments[0];
 
-            if (firstSegment.transform.position.z < -segmentLength)
+            if (firstSegment.transform.position.z + segmentLength < -10)
             {
                 segments.RemoveAt(0);
                 Destroy(firstSegment);
@@ -106,12 +106,23 @@ public class LevelManager : MonoBehaviour
         int patternType = ChoosePattern();
 
         GameObject newSegment = generator.GenerateSegment(patternType);
-        newSegment.transform.position = new Vector3(0, 0, nextSegmentZ);
+        
+        float spawnZ;
+        if (segments.Count > 0)
+        {
+            GameObject lastSegment = segments[segments.Count - 1];
+            spawnZ = lastSegment.transform.position.z + segmentLength;
+        }
+        else
+        {
+            spawnZ = nextSegmentZ;
+        }
+        
+        newSegment.transform.position = new Vector3(0, 0, spawnZ);
         newSegment.transform.SetParent(transform);
 
         segments.Add(newSegment);
 
-        nextSegmentZ += segmentLength;
         segmentCounter++;
     }
 

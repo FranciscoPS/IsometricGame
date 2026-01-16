@@ -18,14 +18,12 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        // Obtener o crear generador
         generator = GetComponent<ProceduralSegmentGenerator>();
         if (generator == null)
         {
             generator = gameObject.AddComponent<ProceduralSegmentGenerator>();
         }
 
-        // Generar segmentos iniciales
         for (int i = 0; i < activeSegments; i++)
         {
             SpawnSegment();
@@ -34,10 +32,7 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        // Mover segmentos hacia el jugador
         MoveSegments();
-
-        // Reciclar segmentos que pasaron
         RecycleSegments();
     }
 
@@ -55,14 +50,10 @@ public class LevelManager : MonoBehaviour
         {
             GameObject firstSegment = segments[0];
             
-            // Si el segmento pasó completamente al jugador
             if (firstSegment.transform.position.z < -segmentLength)
             {
-                // Destruir y remover de la lista
                 segments.RemoveAt(0);
                 Destroy(firstSegment);
-
-                // Crear nuevo segmento adelante
                 SpawnSegment();
             }
         }
@@ -70,7 +61,6 @@ public class LevelManager : MonoBehaviour
 
     void SpawnSegment()
     {
-        // Elegir patrón según progresión
         int patternType = ChoosePattern();
         
         GameObject newSegment = generator.GenerateSegment(patternType);
@@ -85,18 +75,17 @@ public class LevelManager : MonoBehaviour
 
     int ChoosePattern()
     {
-        // Los primeros segmentos son más fáciles
         if (segmentCounter < 3)
         {
-            return Random.Range(0, 2); // Solo vacío o torres simples
+            return Random.Range(0, 2);
         }
         else if (segmentCounter < 10)
         {
-            return Random.Range(0, 4); // Patrones fáciles a medios
+            return Random.Range(0, 4);
         }
         else
         {
-            return Random.Range(1, 7); // Todos los patrones (excepto vacío)
+            return Random.Range(1, 7);
         }
     }
 

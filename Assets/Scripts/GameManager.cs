@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // Singleton
         if (Instance == null)
         {
             Instance = this;
@@ -52,7 +51,6 @@ public class GameManager : MonoBehaviour
 
         UpdateUI();
 
-        // Buscar LevelManager
         levelManager = FindFirstObjectByType<LevelManager>();
     }
 
@@ -60,7 +58,6 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameOver)
         {
-            // Aumentar velocidad gradualmente
             IncreaseSpeed();
         }
     }

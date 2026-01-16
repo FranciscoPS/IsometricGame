@@ -19,10 +19,7 @@ public class LevelBoundaries : MonoBehaviour
 
     void CreateBoundaryWalls()
     {
-        // Muro izquierdo
         leftWall = CreateWall("LeftBoundary", new Vector3(leftLimit, 4, 50), new Vector3(1, 10, 100));
-        
-        // Muro derecho
         rightWall = CreateWall("RightBoundary", new Vector3(rightLimit, 4, 50), new Vector3(1, 10, 100));
     }
 
@@ -33,7 +30,6 @@ public class LevelBoundaries : MonoBehaviour
         wall.transform.position = position;
         wall.transform.localScale = scale;
         
-        // Hacer invisible si no queremos verlo
         Renderer renderer = wall.GetComponent<Renderer>();
         if (!showVisualWalls)
         {
@@ -44,7 +40,7 @@ public class LevelBoundaries : MonoBehaviour
             Shader shader = Shader.Find("Universal Render Pipeline/Lit");
             if (shader == null) shader = Shader.Find("Standard");
             Material mat = new Material(shader);
-            mat.color = new Color(1, 0, 0, 0.3f); // Rojo semi-transparente
+            mat.color = new Color(1, 0, 0, 0.3f);
             mat.SetFloat("_Mode", 3);
             mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
             mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
@@ -54,7 +50,6 @@ public class LevelBoundaries : MonoBehaviour
             renderer.material = mat;
         }
         
-        // Configurar collider
         wall.GetComponent<Collider>().isTrigger = false;
         wall.tag = "Boundary";
         

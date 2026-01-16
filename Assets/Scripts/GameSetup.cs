@@ -18,22 +18,11 @@ public class GameSetup : MonoBehaviour
     {
         Debug.Log("Setting up Zaxxon prototype scene...");
 
-        // 1. Setup Player
         GameObject player = SetupPlayer();
-
-        // 2. Setup Camera
         SetupCamera(player.transform);
-
-        // 3. Setup Level Manager
         SetupLevelManager();
-
-        // 4. Setup Boundaries
         SetupBoundaries();
-
-        // 5. Setup UI
         SetupUI();
-
-        // 6. Setup Game Manager
         SetupGameManager();
 
         // 7. Configure Tags and Layers
@@ -78,8 +67,6 @@ public class GameSetup : MonoBehaviour
             // Asignar bullet prefab
             PlayerController controller = player.GetComponent<PlayerController>();
             controller.bulletPrefab = BulletFactory.GetPlayerBulletPrefab();
-
-            Debug.Log("✅ Player created");
         }
 
         return player;
@@ -108,8 +95,6 @@ public class GameSetup : MonoBehaviour
 
         mainCam.transform.position = camSetup.offset;
         mainCam.transform.rotation = Quaternion.Euler(camSetup.rotation);
-
-        Debug.Log("✅ Camera configured");
     }
 
     void SetupLevelManager()
@@ -135,8 +120,6 @@ public class GameSetup : MonoBehaviour
                 lm.player = player.transform;
             }
         }
-
-        Debug.Log("✅ Level Manager configured");
     }
 
     void SetupBoundaries()
@@ -151,8 +134,6 @@ public class GameSetup : MonoBehaviour
         {
             boundariesObj.AddComponent<LevelBoundaries>();
         }
-
-        Debug.Log("✅ Boundaries configured");
     }
 
     void SetupUI()
@@ -387,7 +368,5 @@ public class GameSetup : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log("✅ Game Manager configured");
     }
 }

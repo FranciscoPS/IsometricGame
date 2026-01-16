@@ -25,12 +25,6 @@ public class ProceduralSegmentGenerator : MonoBehaviour
     void Start()
     {
         CreateDefaultMaterials();
-        
-        // Debug: mostrar qué shader se está usando
-        if (groundMaterial != null && groundMaterial.shader != null)
-        {
-            Debug.Log($"Shader en uso: {groundMaterial.shader.name}");
-        }
     }
 
     void CreateDefaultMaterials()

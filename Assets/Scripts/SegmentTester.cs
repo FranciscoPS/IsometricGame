@@ -56,14 +56,10 @@ public class SegmentTester : MonoBehaviour
     [ContextMenu("Generate Single Pattern")]
     public void GenerateSinglePattern()
     {
-        Debug.Log($"Generando patrón {patternToGenerate}: {GetPatternName(patternToGenerate)}");
-        
         GameObject segment = generator.GenerateSegment(patternToGenerate);
         segment.transform.position = new Vector3(0, 0, 0);
         segment.transform.SetParent(transform);
         segment.name = $"Segment_{GetPatternName(patternToGenerate)}";
-        
-        Debug.Log($"✓ Generado: {segment.name}");
     }
 
     [ContextMenu("Clear All Segments")]
@@ -84,14 +80,11 @@ public class SegmentTester : MonoBehaviour
     public void GenerateRandomPattern()
     {
         int randomPattern = Random.Range(0, 8);
-        Debug.Log($"Generando patrón aleatorio {randomPattern}: {GetPatternName(randomPattern)}");
         
         GameObject segment = generator.GenerateSegment(randomPattern);
         segment.transform.position = new Vector3(0, 0, 0);
         segment.transform.SetParent(transform);
         segment.name = $"Segment_{GetPatternName(randomPattern)}";
-        
-        Debug.Log($"✓ Generado: {segment.name}");
     }
 
     string GetPatternName(int patternType)

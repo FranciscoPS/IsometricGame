@@ -23,16 +23,17 @@ public class PlayerShadow : MonoBehaviour
         // Crear quad para la sombra
         shadowObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
         shadowObject.name = "PlayerShadow";
-        
+
         // Eliminar collider
         Destroy(shadowObject.GetComponent<Collider>());
-        
+
         // Rotar para que esté en el suelo
         shadowObject.transform.rotation = Quaternion.Euler(90, 0, 0);
-        
+
         // Crear material semi-transparente
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-        if (shader == null) shader = Shader.Find("Standard");
+        if (shader == null)
+            shader = Shader.Find("Standard");
         Material shadowMat = new Material(shader);
         shadowMat.color = new Color(0, 0, 0, 0.5f);
         shadowMat.SetFloat("_Mode", 3); // Transparent
@@ -43,7 +44,7 @@ public class PlayerShadow : MonoBehaviour
         shadowMat.EnableKeyword("_ALPHABLEND_ON");
         shadowMat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
         shadowMat.renderQueue = 3000;
-        
+
         shadowObject.GetComponent<Renderer>().material = shadowMat;
         shadowObject.transform.localScale = Vector3.one * shadowScale;
     }

@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
         {
             rb = gameObject.AddComponent<Rigidbody>();
         }
-        
+
         rb.useGravity = false;
         rb.linearVelocity = Vector3.forward * speed;
 

@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ProceduralSegmentGenerator : MonoBehaviour
 {
@@ -58,11 +58,15 @@ public class ProceduralSegmentGenerator : MonoBehaviour
     {
         // Intentar shaders de URP primero, luego fallbacks
         Shader shader = Shader.Find("Universal Render Pipeline/Simple Lit");
-        if (shader == null) shader = Shader.Find("Universal Render Pipeline/Lit");
-        if (shader == null) shader = Shader.Find("Standard");
-        if (shader == null) shader = Shader.Find("Diffuse");
-        if (shader == null) shader = Shader.Find("Unlit/Color");
-        
+        if (shader == null)
+            shader = Shader.Find("Universal Render Pipeline/Lit");
+        if (shader == null)
+            shader = Shader.Find("Standard");
+        if (shader == null)
+            shader = Shader.Find("Diffuse");
+        if (shader == null)
+            shader = Shader.Find("Unlit/Color");
+
         Material mat = new Material(shader != null ? shader : Shader.Find("Sprites/Default"));
         mat.color = color;
         return mat;
@@ -72,9 +76,9 @@ public class ProceduralSegmentGenerator : MonoBehaviour
     {
         // Asegurar que los materiales estén inicializados
         CreateDefaultMaterials();
-        
+
         GameObject segment = new GameObject($"Segment_{patternType}");
-        
+
         // Crear suelo
         CreateGround(segment.transform);
 
@@ -118,7 +122,7 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         ground.transform.localPosition = new Vector3(0, -0.5f, segmentLength / 2);
         ground.transform.localScale = new Vector3(segmentWidth, 1f, segmentLength);
         ground.GetComponent<Renderer>().material = groundMaterial;
-        
+
         // El suelo no debe ser trigger
         ground.GetComponent<Collider>().isTrigger = false;
     }
@@ -159,10 +163,10 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         // Muros laterales
         CreateWall(parent, new Vector3(-9, 3, 10), new Vector3(1, 6, segmentLength));
         CreateWall(parent, new Vector3(9, 3, 10), new Vector3(1, 6, segmentLength));
-        
+
         // Techo
         CreateCeiling(parent, new Vector3(0, 7, 10), new Vector3(segmentWidth, 1, segmentLength));
-        
+
         // Torres dentro del túnel
         CreateTower(parent, new Vector3(-4, 0, 7));
         CreateTower(parent, new Vector3(4, 0, 13));
@@ -193,7 +197,7 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         {
             float z = Random.Range(5f, segmentLength - 2);
             float x = Random.Range(-6f, 6f);
-            
+
             int obstacleType = Random.Range(0, 3);
             if (obstacleType == 0)
             {
@@ -219,11 +223,11 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         tower.transform.localPosition = localPos;
         tower.transform.localScale = new Vector3(1.5f, 2f, 1.5f);
         tower.GetComponent<Renderer>().material = towerMaterial;
-        
+
         // Configurar como obstáculo
         tower.tag = "Enemy";
         tower.GetComponent<Collider>().isTrigger = true;
-        
+
         // Añadir script de torreta
         EnemyTurret turret = tower.AddComponent<EnemyTurret>();
     }
@@ -236,7 +240,7 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         wall.transform.localPosition = localPos;
         wall.transform.localScale = scale;
         wall.GetComponent<Renderer>().material = wallMaterial;
-        
+
         wall.tag = "Obstacle";
         wall.GetComponent<Collider>().isTrigger = true;
     }
@@ -248,10 +252,10 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         block.transform.SetParent(parent);
         block.transform.localPosition = localPos;
         block.transform.localScale = scale;
-        
+
         Material floatingMat = CreateMaterial(new Color(0.6f, 0.4f, 0.2f));
         block.GetComponent<Renderer>().material = floatingMat;
-        
+
         block.tag = "Obstacle";
         block.GetComponent<Collider>().isTrigger = true;
     }
@@ -264,7 +268,7 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         ceiling.transform.localPosition = localPos;
         ceiling.transform.localScale = scale;
         ceiling.GetComponent<Renderer>().material = ceilingMaterial;
-        
+
         ceiling.tag = "Obstacle";
         ceiling.GetComponent<Collider>().isTrigger = true;
     }

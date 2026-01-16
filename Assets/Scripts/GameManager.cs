@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -102,7 +102,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (isGameOver) return;
+        if (isGameOver)
+            return;
 
         isGameOver = true;
 

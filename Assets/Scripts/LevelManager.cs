@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
         if (segments.Count > 0)
         {
             GameObject firstSegment = segments[0];
-            
+
             if (firstSegment.transform.position.z < -segmentLength)
             {
                 segments.RemoveAt(0);
@@ -62,13 +62,13 @@ public class LevelManager : MonoBehaviour
     void SpawnSegment()
     {
         int patternType = ChoosePattern();
-        
+
         GameObject newSegment = generator.GenerateSegment(patternType);
         newSegment.transform.position = new Vector3(0, 0, nextSegmentZ);
         newSegment.transform.SetParent(transform);
-        
+
         segments.Add(newSegment);
-        
+
         nextSegmentZ += segmentLength;
         segmentCounter++;
     }

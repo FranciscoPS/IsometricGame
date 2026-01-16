@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
         // Limitar movimiento horizontal
         newPosition.x = Mathf.Clamp(newPosition.x, -horizontalLimit, horizontalLimit);
-        
+
         // Limitar altura
         newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
 

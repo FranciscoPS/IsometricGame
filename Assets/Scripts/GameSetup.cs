@@ -40,7 +40,7 @@ public class GameSetup : MonoBehaviour
     GameObject SetupPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        
+
         if (player == null)
         {
             player = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -51,7 +51,8 @@ public class GameSetup : MonoBehaviour
 
             // Material azul
             Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-            if (shader == null) shader = Shader.Find("Standard");
+            if (shader == null)
+                shader = Shader.Find("Standard");
             Material mat = new Material(shader);
             mat.color = Color.blue;
             player.GetComponent<Renderer>().material = mat;
@@ -113,7 +114,7 @@ public class GameSetup : MonoBehaviour
         if (levelManagerObj.GetComponent<LevelManager>() == null)
         {
             LevelManager lm = levelManagerObj.AddComponent<LevelManager>();
-            
+
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
@@ -149,10 +150,24 @@ public class GameSetup : MonoBehaviour
         }
 
         // Score Text
-        CreateUIText(canvas.transform, "ScoreText", new Vector2(10, -10), new Vector2(200, 30), TextAnchor.UpperLeft, "Score: 0");
+        CreateUIText(
+            canvas.transform,
+            "ScoreText",
+            new Vector2(10, -10),
+            new Vector2(200, 30),
+            TextAnchor.UpperLeft,
+            "Score: 0"
+        );
 
         // Health Text
-        CreateUIText(canvas.transform, "HealthText", new Vector2(10, -50), new Vector2(200, 30), TextAnchor.UpperLeft, "Health: 3");
+        CreateUIText(
+            canvas.transform,
+            "HealthText",
+            new Vector2(10, -50),
+            new Vector2(200, 30),
+            TextAnchor.UpperLeft,
+            "Health: 3"
+        );
 
         // Height Indicator
         CreateHeightIndicator(canvas.transform);
@@ -163,14 +178,22 @@ public class GameSetup : MonoBehaviour
         Debug.Log("✅ UI configured");
     }
 
-    void CreateUIText(Transform parent, string name, Vector2 anchoredPosition, Vector2 sizeDelta, TextAnchor alignment, string text)
+    void CreateUIText(
+        Transform parent,
+        string name,
+        Vector2 anchoredPosition,
+        Vector2 sizeDelta,
+        TextAnchor alignment,
+        string text
+    )
     {
         Transform existing = parent.Find(name);
-        if (existing != null) return;
+        if (existing != null)
+            return;
 
         GameObject textObj = new GameObject(name);
         textObj.transform.SetParent(parent);
-        
+
         RectTransform rect = textObj.AddComponent<RectTransform>();
         rect.anchorMin = new Vector2(0, 1);
         rect.anchorMax = new Vector2(0, 1);
@@ -189,7 +212,8 @@ public class GameSetup : MonoBehaviour
     void CreateHeightIndicator(Transform parent)
     {
         Transform existing = parent.Find("HeightIndicator");
-        if (existing != null) return;
+        if (existing != null)
+            return;
 
         GameObject indicatorObj = new GameObject("HeightIndicator");
         indicatorObj.transform.SetParent(parent);
@@ -248,7 +272,8 @@ public class GameSetup : MonoBehaviour
     void CreateGameOverPanel(Transform parent)
     {
         Transform existing = parent.Find("GameOverPanel");
-        if (existing != null) return;
+        if (existing != null)
+            return;
 
         GameObject panel = new GameObject("GameOverPanel");
         panel.transform.SetParent(parent);
@@ -262,7 +287,14 @@ public class GameSetup : MonoBehaviour
         image.color = new Color(0, 0, 0, 0.8f);
 
         // Game Over Text
-        CreateUIText(panel.transform, "GameOverText", new Vector2(0, 50), new Vector2(400, 60), TextAnchor.MiddleCenter, "GAME OVER");
+        CreateUIText(
+            panel.transform,
+            "GameOverText",
+            new Vector2(0, 50),
+            new Vector2(400, 60),
+            TextAnchor.MiddleCenter,
+            "GAME OVER"
+        );
         GameObject goText = panel.transform.Find("GameOverText").gameObject;
         RectTransform goRect = goText.GetComponent<RectTransform>();
         goRect.anchorMin = new Vector2(0.5f, 0.5f);
@@ -271,7 +303,14 @@ public class GameSetup : MonoBehaviour
         goText.GetComponent<UnityEngine.UI.Text>().fontSize = 40;
 
         // Final Score Text
-        CreateUIText(panel.transform, "FinalScoreText", new Vector2(0, -20), new Vector2(400, 40), TextAnchor.MiddleCenter, "Final Score: 0");
+        CreateUIText(
+            panel.transform,
+            "FinalScoreText",
+            new Vector2(0, -20),
+            new Vector2(400, 40),
+            TextAnchor.MiddleCenter,
+            "Final Score: 0"
+        );
         GameObject scoreText = panel.transform.Find("FinalScoreText").gameObject;
         RectTransform scoreRect = scoreText.GetComponent<RectTransform>();
         scoreRect.anchorMin = new Vector2(0.5f, 0.5f);
@@ -363,7 +402,8 @@ public class GameSetup : MonoBehaviour
                 Transform restartButton = gameOverPanel.Find("RestartButton");
                 if (restartButton != null)
                 {
-                    UnityEngine.UI.Button button = restartButton.GetComponent<UnityEngine.UI.Button>();
+                    UnityEngine.UI.Button button =
+                        restartButton.GetComponent<UnityEngine.UI.Button>();
                     button.onClick.AddListener(gm.RestartGame);
                 }
             }

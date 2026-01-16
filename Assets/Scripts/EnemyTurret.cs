@@ -38,7 +38,7 @@ public class EnemyTurret : MonoBehaviour
         if (player != null && Time.time >= nextFireTime)
         {
             float distance = Vector3.Distance(transform.position, player.position);
-            
+
             // Solo disparar si el jugador está en rango y adelante de la torreta
             if (distance < detectionRange && player.position.z < transform.position.z)
             {
@@ -52,11 +52,15 @@ public class EnemyTurret : MonoBehaviour
     {
         if (bulletPrefab != null && firePoint != null && player != null)
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity);
-            
+            GameObject bullet = Instantiate(
+                bulletPrefab,
+                firePoint.transform.position,
+                Quaternion.identity
+            );
+
             // Calcular dirección hacia el jugador
             Vector3 direction = (player.position - firePoint.transform.position).normalized;
-            
+
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -79,31 +83,32 @@ public class EnemyTurret : MonoBehaviour
         GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         bullet.name = "EnemyBullet";
         bullet.transform.localScale = Vector3.one * 0.3f;
-        
+
         // Material rojo
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-        if (shader == null) shader = Shader.Find("Standard");
+        if (shader == null)
+            shader = Shader.Find("Standard");
         Material mat = new Material(shader);
         mat.color = Color.red;
         bullet.GetComponent<Renderer>().material = mat;
-        
+
         // Physics
         Rigidbody rb = bullet.AddComponent<Rigidbody>();
         rb.useGravity = false;
-        
+
         SphereCollider collider = bullet.GetComponent<SphereCollider>();
         collider.isTrigger = true;
-        
+
         // Script
         Bullet bulletScript = bullet.AddComponent<Bullet>();
         bulletScript.isPlayerBullet = false;
         bulletScript.damage = 1;
-        
+
         bullet.tag = "EnemyBullet";
-        
+
         // Desactivar para usar como prefab
         bullet.SetActive(false);
-        
+
         return bullet;
     }
 

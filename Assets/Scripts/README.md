@@ -1,4 +1,5 @@
 # Zaxxon Prototype - Unity 6
+
 ## Guía de Setup Rápido (3 Días)
 
 ### ✅ Scripts Creados
@@ -6,22 +7,26 @@
 Todos los scripts necesarios han sido generados con código procedural. No necesitas diseñar nada manualmente en Unity.
 
 #### Scripts de Jugador:
+
 - `PlayerController.cs` - Movimiento y disparo del jugador
 - `PlayerShadow.cs` - Sombra proyectada en el suelo
 - `HeightIndicator.cs` - UI del indicador de altura
 
 #### Scripts de Nivel:
+
 - `ProceduralSegmentGenerator.cs` - Genera segmentos con código (7 patrones diferentes)
 - `LevelManager.cs` - Gestiona el reciclaje y movimiento de segmentos
 - `LevelBoundaries.cs` - Crea muros invisibles laterales
 
 #### Scripts de Enemigos y Combate:
+
 - `EnemyTurret.cs` - Torres que disparan al jugador
 - `Bullet.cs` - Proyectiles del jugador y enemigos
 - `Destructible.cs` - Sistema de vida para obstáculos
 - `BulletFactory.cs` - Crea prefabs de balas proceduralmente
 
 #### Scripts de Gestión:
+
 - `GameManager.cs` - Puntuación, vida, game over
 - `CameraSetup.cs` - Cámara isométrica
 - `GameSetup.cs` - **Script automático que configura toda la escena**
@@ -31,9 +36,11 @@ Todos los scripts necesarios han sido generados con código procedural. No neces
 ## 🚀 PASOS PARA CONFIGURAR EL JUEGO
 
 ### Paso 1: Crear Tags Necesarios
+
 En Unity, ve a: **Edit > Project Settings > Tags and Layers**
 
 Añade estos tags:
+
 1. `Player`
 2. `Enemy`
 3. `Obstacle`
@@ -42,6 +49,7 @@ Añade estos tags:
 6. `EnemyBullet`
 
 ### Paso 2: Configuración Automática
+
 1. Crea un GameObject vacío en tu escena
 2. Nómbralo `GameSetup`
 3. Añádele el script `GameSetup.cs`
@@ -49,15 +57,18 @@ Añade estos tags:
 5. **Da Play** - La escena se configurará automáticamente
 
 **O manualmente:**
+
 - Click derecho en `GameSetup` en el Hierarchy
 - Selecciona: **Setup Complete Scene** del menú contextual
 
 ### Paso 3: Configurar Input (si es necesario)
+
 Ve a: **Edit > Project Settings > Input Manager**
 
 Asegúrate que existan:
+
 - **Horizontal**: A/D o Flechas Izquierda/Derecha
-- **Vertical**: W/S o Flechas Arriba/Abajo  
+- **Vertical**: W/S o Flechas Arriba/Abajo
 - **Fire1**: Space o Click Izquierdo
 
 (Por defecto Unity ya tiene estos configurados)
@@ -102,37 +113,46 @@ Los segmentos se reciclan automáticamente y la dificultad aumenta progresivamen
 ✅ Game Over con reinicio  
 ✅ Muros invisibles laterales  
 ✅ Velocidad progresiva  
-✅ Cámara isométrica  
+✅ Cámara isométrica
 
 ---
 
 ## ⚙️ AJUSTES OPCIONALES
 
 ### Modificar Velocidad del Nivel:
+
 En `LevelManager`:
+
 - `scrollSpeed` - Velocidad inicial (default: 5)
 
 En `GameManager`:
+
 - `startSpeed` - Velocidad inicial (default: 5)
 - `maxSpeed` - Velocidad máxima (default: 15)
 - `speedIncreaseRate` - Qué tan rápido aumenta (default: 0.5)
 
 ### Modificar Dificultad:
+
 En `PlayerController`:
+
 - `maxHealth` - Vida inicial (default: 3)
 - `moveSpeed` - Velocidad de movimiento (default: 10)
 - `fireRate` - Velocidad de disparo (default: 0.3)
 
 En `EnemyTurret`:
+
 - `fireRate` - Velocidad de disparo enemigo (default: 2)
 - `detectionRange` - Rango de detección (default: 15)
 
 ### Modificar Generación de Nivel:
+
 En `ProceduralSegmentGenerator`:
+
 - `segmentLength` - Largo de cada segmento (default: 20)
 - `segmentWidth` - Ancho del nivel (default: 18)
 
 En `LevelManager`:
+
 - Modifica el método `ChoosePattern()` para cambiar qué patrones aparecen y cuándo
 
 ---
@@ -140,22 +160,27 @@ En `LevelManager`:
 ## 🐛 SOLUCIÓN DE PROBLEMAS
 
 **Problema: El jugador no se mueve**
+
 - Verifica que el tag `Player` esté asignado
 - Revisa que `PlayerController` esté en el GameObject
 
 **Problema: No se generan segmentos**
+
 - Verifica que `LevelManager` tenga el componente `ProceduralSegmentGenerator`
 - Revisa la consola por errores de materiales
 
 **Problema: Las balas no funcionan**
+
 - Asegúrate que todos los tags estén creados
 - Verifica que los colliders sean `Trigger`
 
 **Problema: Game Over no funciona**
+
 - Verifica que `GameManager` tenga las referencias UI asignadas
 - Revisa que el panel `GameOverPanel` exista en el Canvas
 
 **Problema: Las torres no disparan**
+
 - Asegúrate que el jugador tenga el tag `Player`
 - Verifica que `EnemyTurret` esté en los objetos torre
 

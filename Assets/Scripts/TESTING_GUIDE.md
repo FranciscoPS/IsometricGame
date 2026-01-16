@@ -5,15 +5,18 @@
 ### Setup Mínimo (2 minutos):
 
 1. **Crear Tags Básicos** (Edit > Project Settings > Tags):
+
    - `Enemy`
    - `Obstacle`
 
 2. **Crear GameObject de Test**:
+
    - Click derecho en Hierarchy → Create Empty
    - Nómbralo: `SegmentTest`
    - Añade el script: `SegmentTester.cs`
 
 3. **Configurar Cámara**:
+
    - Selecciona Main Camera
    - Posición: `(10, 15, -10)`
    - Rotación: `(35, -45, 0)`
@@ -25,13 +28,17 @@
 ## 🎮 Opciones de Testing
 
 ### Opción 1: Ver Todos los Patrones (Automático)
+
 En el Inspector del `SegmentTest`:
+
 - ✅ Marca: `Generate All Patterns On Start`
 - Click Play
 - Verás los 8 patrones generados en línea
 
 ### Opción 2: Generar Patrones Manualmente
+
 En el Inspector del `SegmentTest`:
+
 - ❌ Desmarca: `Generate All Patterns On Start`
 - Click Play
 - Click derecho en `SegmentTest` en Hierarchy
@@ -42,6 +49,7 @@ En el Inspector del `SegmentTest`:
   - **Clear All Segments** → Limpia la escena
 
 ### Opción 3: Probar Patrones Específicos
+
 1. Desmarca `Generate All Patterns On Start`
 2. En `Pattern To Generate`, elige un número (0-7):
    - **0** = Vacío (solo suelo)
@@ -59,12 +67,14 @@ En el Inspector del `SegmentTest`:
 ## 🎥 Navegación de Cámara
 
 **En el Editor (Scene View):**
+
 - Click derecho + arrastrar = Rotar cámara
 - Rueda del mouse = Zoom
 - Click medio + arrastrar = Desplazar (pan)
 - F con objeto seleccionado = Enfocar
 
 **Ver todos los segmentos:**
+
 - Selecciona `SegmentTest` en Hierarchy
 - Presiona `F` para enfocar todos los segmentos
 
@@ -116,22 +126,25 @@ En el Inspector de `SegmentTest`:
 ✓ Muros grises cúbicos  
 ✓ Bloques flotantes en el aire  
 ✓ Túnel con techo azul  
-✓ Variedad de configuraciones  
+✓ Variedad de configuraciones
 
 ---
 
 ## 🐛 Si algo no funciona:
 
 **No se genera nada:**
+
 - Verifica que `SegmentTester` esté en el GameObject
 - Mira la Consola por errores
 
 **No veo los segmentos:**
+
 - Usa Scene View en lugar de Game View
 - Presiona `F` con `SegmentTest` seleccionado
 - Ajusta la posición de la cámara
 
 **Colores extraños:**
+
 - Es normal, son materiales procedurales simples
 
 ---
@@ -139,6 +152,7 @@ En el Inspector de `SegmentTest`:
 ## 💡 Próximo Paso
 
 Una vez que veas que los segmentos se generan correctamente:
+
 1. Usa `Clear All Segments` para limpiar
 2. Desactiva o elimina el `SegmentTest`
 3. Continúa con el setup completo del juego usando `GameSetup.cs`

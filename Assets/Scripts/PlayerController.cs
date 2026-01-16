@@ -251,6 +251,14 @@ public class PlayerController : MonoBehaviour
     {
         isDead = true;
         
+        CreatePlayerExplosion();
+        
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        foreach (var r in renderers)
+        {
+            if (r != null) r.enabled = false;
+        }
+        
         if (GameManager.Instance != null)
         {
             GameManager.Instance.GameOver();

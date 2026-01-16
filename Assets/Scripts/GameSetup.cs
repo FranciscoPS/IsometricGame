@@ -23,6 +23,7 @@ public class GameSetup : MonoBehaviour
         SetupBoundaries();
         SetupUI();
         SetupGameManager();
+        SetupLighting();
     }
 
     GameObject SetupPlayer()
@@ -48,7 +49,6 @@ public class GameSetup : MonoBehaviour
             collider.isTrigger = true;
 
             player.AddComponent<PlayerController>();
-            player.AddComponent<PlayerShadow>();
 
             PlayerController controller = player.GetComponent<PlayerController>();
             controller.bulletPrefab = BulletFactory.GetPlayerBulletPrefab();
@@ -377,5 +377,34 @@ public class GameSetup : MonoBehaviour
                 }
             }
         }
+    }
+
+    void SetupLighting()
+    {
+        Light[] lights = FindObjectsOfType<Light>();
+        Light directionalLight = null;
+
+        foreach (Light light in lights)
+        {
+            if (light.type == LightType.Directional)
+            {
+                directionalLight = light;
+                break;
+            }
+        }
+
+        if (directionalLight == null)
+        {
+            GameObject lightObj = new GameObject("Directional Light");
+            directionalLight = lightObj.AddComponent<Light>();
+            directionalLight.type = LightType.Directional;
+        }
+
+        // Configurar sombras verticales (directamente encima)
+        directionalLight.transform.rotation = Quaternion.Euler(90, 0, 0);
+        directionalLight.shadows = LightShadows.Soft;
+        directionalLight.shadowStrength = 0.8f;
+
+        Debug.Log("Lighting configured: Shadows set to vertical (90° downward)");
     }
 }

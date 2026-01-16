@@ -169,11 +169,6 @@ public class GameManager : MonoBehaviour
         {
             finalScoreText.text = $"Final Score: {currentScore}";
         }
-
-        if (levelManager != null)
-        {
-            levelManager.SetScrollSpeed(0);
-        }
     }
 
     public void RestartGame()

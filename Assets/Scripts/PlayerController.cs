@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +20,29 @@ public class PlayerController : MonoBehaviour
     private int currentHealth;
 
     private Rigidbody rb;
+    private InputSystem_Actions inputActions;
+    private Vector2 moveInput;
+
+    void Awake()
+    {
+        inputActions = new InputSystem_Actions();
+    }
+
+    void OnEnable()
+    {
+        inputActions.Gameplay.Enable();
+        inputActions.Gameplay.Move.performed += OnMove;
+        inputActions.Gameplay.Move.canceled += OnMove;
+        inputActions.Gameplay.Fire.performed += OnFire;
+    }
+
+    void OnDisable()
+    {
+        inputActions.Gameplay.Move.performed -= OnMove;
+        inputActions.Gameplay.Move.canceled -= OnMove;
+        inputActions.Gameplay.Fire.performed -= OnFire;
+        inputActions.Gameplay.Disable();
+    }
 
     void Start()
     {
@@ -41,34 +65,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+    }
+
+    private void OnFire(InputAction.CallbackContext context)
+    {
+        Shoot();
+    }
+
     void Update()
     {
         HandleMovement();
-        HandleShooting();
     }
 
     void HandleMovement()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(horizontal, vertical, 0) * moveSpeed * Time.deltaTime;
+        Vector3 movement = new Vector3(moveInput.x, moveInput.y, 0) * moveSpeed * Time.deltaTime;
         Vector3 newPosition = transform.position + movement;
 
         newPosition.x = Mathf.Clamp(newPosition.x, -horizontalLimit, horizontalLimit);
-
         newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
 
         transform.position = newPosition;
-    }
-
-    void HandleShooting()
-    {
-        if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
-        {
-            Shoot();
-            nextFireTime = Time.time + fireRate;
-        }
     }
 
     void Shoot()

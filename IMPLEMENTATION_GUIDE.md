@@ -36,17 +36,25 @@
 ### 4. Crear UI
 1. `GameObject > UI > Canvas`
 2. Dentro del Canvas crear:
-   - **Text - TMP** nombrado "ScoreText" 
+   - **Text - TextMeshPro** nombrado "ScoreText" 
      - Anchor: Top-Left
      - Position: (10, -10) desde esquina
+     - Text: "Score: 0"
    - **Slider** nombrado "HeightIndicator"
      - Anchor: Right-Center
      - Width: 200, Height: 30
-   - **Text - TMP** nombrado "GameOverText"
+   - **Text - TextMeshPro** nombrado "GameOverText"
      - Anchor: Center
      - Font Size: 48
      - Color: Rojo
+     - Text: "GAME OVER"
      - Desactivar inicialmente
+   - **Text - TextMeshPro** nombrado "HealthText"
+     - Anchor: Top-Left
+     - Position: (10, -40) desde esquina
+     - Text: "Health: 3"
+
+> **Nota:** Si Unity pregunta "Import TMP Essentials", haz clic en "Import TMP Essentials" primero.
 
 ### 5. Crear Game Manager
 1. Crear GameObject vacío: "GameManager"

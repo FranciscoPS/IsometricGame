@@ -1,16 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     [Header("UI References")]
-    public Text scoreText;
-    public Text healthText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI healthText;
     public GameObject gameOverPanel;
-    public Text finalScoreText;
+    public TextMeshProUGUI finalScoreText;
 
     [Header("Game Settings")]
     public int startingHealth = 3;
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
             GameObject scoreObj = GameObject.Find("ScoreText");
             if (scoreObj != null)
             {
-                scoreText = scoreObj.GetComponent<Text>();
+                scoreText = scoreObj.GetComponent<TextMeshProUGUI>();
             }
         }
         
@@ -75,7 +76,7 @@ public class GameManager : MonoBehaviour
             GameObject healthObj = GameObject.Find("HealthText");
             if (healthObj != null)
             {
-                healthText = healthObj.GetComponent<Text>();
+                healthText = healthObj.GetComponent<TextMeshProUGUI>();
             }
         }
         
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
                     Transform finalScoreTransform = panelTransform.Find("FinalScoreText");
                     if (finalScoreTransform != null)
                     {
-                        finalScoreText = finalScoreTransform.GetComponent<Text>();
+                        finalScoreText = finalScoreTransform.GetComponent<TextMeshProUGUI>();
                     }
                 }
             }

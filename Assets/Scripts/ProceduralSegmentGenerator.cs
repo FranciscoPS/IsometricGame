@@ -223,9 +223,7 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         wall.tag = "Obstacle";
         wall.GetComponent<Collider>().isTrigger = true;
         
-        Destructible destructible = wall.AddComponent<Destructible>();
-        destructible.maxHealth = 2;
-        destructible.scoreValue = 20;
+        // Los muros verdes son indestructibles - no tienen componente Destructible
     }
 
     void CreateFloatingBlock(Transform parent, Vector3 localPos, Vector3 scale)

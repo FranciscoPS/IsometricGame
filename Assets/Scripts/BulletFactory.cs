@@ -9,7 +9,7 @@ public class BulletFactory : MonoBehaviour
     {
         if (playerBulletPrefab == null)
         {
-            playerBulletPrefab = CreateBulletPrefab("PlayerBullet", Color.cyan, true);
+            playerBulletPrefab = CreateBulletPrefab("PlayerBullet", Color.cyan, true, 0.5f);
         }
 
         GameObject bullet = Instantiate(playerBulletPrefab);
@@ -21,7 +21,7 @@ public class BulletFactory : MonoBehaviour
     {
         if (enemyBulletPrefab == null)
         {
-            enemyBulletPrefab = CreateBulletPrefab("EnemyBullet", Color.red, false);
+            enemyBulletPrefab = CreateBulletPrefab("EnemyBullet", Color.red, false, 0.6f);
         }
 
         GameObject bullet = Instantiate(enemyBulletPrefab);
@@ -29,11 +29,11 @@ public class BulletFactory : MonoBehaviour
         return bullet;
     }
 
-    static GameObject CreateBulletPrefab(string name, Color color, bool isPlayerBullet)
+    static GameObject CreateBulletPrefab(string name, Color color, bool isPlayerBullet, float size)
     {
         GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         bullet.name = name;
-        bullet.transform.localScale = Vector3.one * 0.5f;
+        bullet.transform.localScale = Vector3.one * size;
 
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
         if (shader == null)
@@ -72,7 +72,7 @@ public class BulletFactory : MonoBehaviour
     {
         if (playerBulletPrefab == null)
         {
-            playerBulletPrefab = CreateBulletPrefab("PlayerBullet", Color.cyan, true);
+            playerBulletPrefab = CreateBulletPrefab("PlayerBullet", Color.cyan, true, 0.5f);
         }
         return playerBulletPrefab;
     }
@@ -81,7 +81,7 @@ public class BulletFactory : MonoBehaviour
     {
         if (enemyBulletPrefab == null)
         {
-            enemyBulletPrefab = CreateBulletPrefab("EnemyBullet", Color.red, false);
+            enemyBulletPrefab = CreateBulletPrefab("EnemyBullet", Color.red, false, 0.6f);
         }
         return enemyBulletPrefab;
     }

@@ -381,7 +381,7 @@ public class GameSetup : MonoBehaviour
 
     void SetupLighting()
     {
-        Light[] lights = FindObjectsOfType<Light>();
+        Light[] lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
         Light directionalLight = null;
 
         foreach (Light light in lights)

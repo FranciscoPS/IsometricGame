@@ -33,7 +33,7 @@ public class BulletFactory : MonoBehaviour
     {
         GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         bullet.name = name;
-        bullet.transform.localScale = Vector3.one * 0.3f;
+        bullet.transform.localScale = Vector3.one * 0.5f;
 
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
         if (shader == null)

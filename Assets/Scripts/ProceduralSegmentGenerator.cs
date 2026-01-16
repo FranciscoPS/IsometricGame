@@ -36,7 +36,7 @@ public class ProceduralSegmentGenerator : MonoBehaviour
 
         if (wallMaterial == null)
         {
-            wallMaterial = CreateMaterial(new Color(0.5f, 0.5f, 0.5f));
+            wallMaterial = CreateMaterial(new Color(0.2f, 0.8f, 0.2f));
         }
 
         if (towerMaterial == null)
@@ -136,18 +136,18 @@ public class ProceduralSegmentGenerator : MonoBehaviour
 
     void CreatePattern_FloatingBlocks(Transform parent)
     {
-        CreateFloatingBlock(parent, new Vector3(-3, 4, 6), new Vector3(2, 2, 2));
-        CreateFloatingBlock(parent, new Vector3(3, 5, 10), new Vector3(2, 2, 2));
-        CreateFloatingBlock(parent, new Vector3(-2, 6, 15), new Vector3(3, 2, 2));
+        CreateFloatingBlock(parent, new Vector3(-5, 3, 5), new Vector3(2, 2, 2));
+        CreateFloatingBlock(parent, new Vector3(3, 6, 10), new Vector3(2, 2, 2));
+        CreateFloatingBlock(parent, new Vector3(-2, 8, 15), new Vector3(3, 2, 2));
+        CreateFloatingBlock(parent, new Vector3(6, 4.5f, 12), new Vector3(2, 2, 2));
     }
 
     void CreatePattern_Tunnel(Transform parent)
     {
-        CreateWall(parent, new Vector3(-9, 3, 10), new Vector3(1, 6, segmentLength));
-        CreateWall(parent, new Vector3(9, 3, 10), new Vector3(1, 6, segmentLength));
-        CreateCeiling(parent, new Vector3(0, 7, 10), new Vector3(segmentWidth, 1, segmentLength));
-        CreateTower(parent, new Vector3(-4, 0, 7));
-        CreateTower(parent, new Vector3(4, 0, 13));
+        // Patrón cambiado - solo torres, sin techos
+        CreateTower(parent, new Vector3(-6, 0, 5));
+        CreateTower(parent, new Vector3(6, 0, 10));
+        CreateTower(parent, new Vector3(0, 0, 15));
     }
 
     void CreatePattern_Mixed(Transform parent)
@@ -155,14 +155,16 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         CreateTower(parent, new Vector3(-6, 0, 5));
         CreateWall(parent, new Vector3(3, 1, 8), new Vector3(2, 2, 2));
         CreateFloatingBlock(parent, new Vector3(-2, 5, 12), new Vector3(2, 2, 2));
+        CreateFloatingBlock(parent, new Vector3(4, 7, 14), new Vector3(2, 2, 2));
         CreateTower(parent, new Vector3(5, 0, 16));
     }
 
     void CreatePattern_Zigzag(Transform parent)
     {
-        CreateFloatingBlock(parent, new Vector3(-5, 3, 5), new Vector3(4, 2, 2));
-        CreateFloatingBlock(parent, new Vector3(5, 5, 10), new Vector3(4, 2, 2));
+        CreateFloatingBlock(parent, new Vector3(-5, 2.5f, 5), new Vector3(4, 2, 2));
+        CreateFloatingBlock(parent, new Vector3(5, 6, 10), new Vector3(4, 2, 2));
         CreateFloatingBlock(parent, new Vector3(-5, 4, 15), new Vector3(4, 2, 2));
+        CreateFloatingBlock(parent, new Vector3(2, 7.5f, 12), new Vector3(3, 2, 2));
     }
 
     void CreatePattern_Random(Transform parent)
@@ -184,7 +186,7 @@ public class ProceduralSegmentGenerator : MonoBehaviour
             }
             else
             {
-                float y = Random.Range(3f, 6f);
+                float y = Random.Range(2.5f, 8f);
                 CreateFloatingBlock(parent, new Vector3(x, y, z), new Vector3(2, 2, 2));
             }
         }

@@ -18,12 +18,52 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        generator = GetComponent<ProceduralSegmentGenerator>();
+        InitializeReferences();
+        
+        for (int i = 0; i < activeSegments; i++)
+        {
+            SpawnSegment();
+        }
+    }
+    
+    void InitializeReferences()
+    {
+        if (generator == null)
+        {
+            generator = GetComponent<ProceduralSegmentGenerator>();
+        }
+        
         if (generator == null)
         {
             generator = gameObject.AddComponent<ProceduralSegmentGenerator>();
         }
-
+        
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+        }
+    }
+    
+    public void ResetLevel()
+    {
+        foreach (GameObject segment in segments)
+        {
+            if (segment != null)
+            {
+                Destroy(segment);
+            }
+        }
+        segments.Clear();
+        
+        nextSegmentZ = 0f;
+        segmentCounter = 0;
+        
+        InitializeReferences();
+        
         for (int i = 0; i < activeSegments; i++)
         {
             SpawnSegment();

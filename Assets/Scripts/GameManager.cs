@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        InitializeReferences();
+        
         currentHealth = startingHealth;
         currentSpeed = startSpeed;
         isGameOver = false;
@@ -50,8 +52,51 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateUI();
-
-        levelManager = FindFirstObjectByType<LevelManager>();
+    }
+    
+    void InitializeReferences()
+    {
+        if (levelManager == null)
+        {
+            levelManager = FindFirstObjectByType<LevelManager>();
+        }
+        
+        if (scoreText == null)
+        {
+            GameObject scoreObj = GameObject.Find("ScoreText");
+            if (scoreObj != null)
+            {
+                scoreText = scoreObj.GetComponent<Text>();
+            }
+        }
+        
+        if (healthText == null)
+        {
+            GameObject healthObj = GameObject.Find("HealthText");
+            if (healthObj != null)
+            {
+                healthText = healthObj.GetComponent<Text>();
+            }
+        }
+        
+        if (gameOverPanel == null)
+        {
+            Transform canvasTransform = FindFirstObjectByType<Canvas>()?.transform;
+            if (canvasTransform != null)
+            {
+                Transform panelTransform = canvasTransform.Find("GameOverPanel");
+                if (panelTransform != null)
+                {
+                    gameOverPanel = panelTransform.gameObject;
+                    
+                    Transform finalScoreTransform = panelTransform.Find("FinalScoreText");
+                    if (finalScoreTransform != null)
+                    {
+                        finalScoreText = finalScoreTransform.GetComponent<Text>();
+                    }
+                }
+            }
+        }
     }
 
     void Update()
@@ -123,6 +168,13 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
+        isGameOver = false;
+        
+        if (ReferenceManager.Instance != null)
+        {
+            ReferenceManager.Instance.RefreshReferences();
+        }
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

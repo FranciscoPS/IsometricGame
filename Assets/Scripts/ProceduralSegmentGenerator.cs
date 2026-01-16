@@ -7,7 +7,7 @@ public class ProceduralSegmentGenerator : MonoBehaviour
     public class SegmentPattern
     {
         public string patternName;
-        public int difficulty; // 1 = fácil, 5 = difícil
+        public int difficulty;
     }
 
     [Header("Segment Settings")]
@@ -29,25 +29,21 @@ public class ProceduralSegmentGenerator : MonoBehaviour
 
     void CreateDefaultMaterials()
     {
-        // Ground - Verde oscuro
         if (groundMaterial == null)
         {
             groundMaterial = CreateMaterial(new Color(0.2f, 0.4f, 0.2f));
         }
 
-        // Wall - Gris
         if (wallMaterial == null)
         {
             wallMaterial = CreateMaterial(new Color(0.5f, 0.5f, 0.5f));
         }
 
-        // Tower - Rojo
         if (towerMaterial == null)
         {
             towerMaterial = CreateMaterial(new Color(0.8f, 0.2f, 0.2f));
         }
 
-        // Ceiling - Azul oscuro
         if (ceilingMaterial == null)
         {
             ceilingMaterial = CreateMaterial(new Color(0.2f, 0.2f, 0.5f));
@@ -74,15 +70,12 @@ public class ProceduralSegmentGenerator : MonoBehaviour
 
     public GameObject GenerateSegment(int patternType)
     {
-        // Asegurar que los materiales estén inicializados
         CreateDefaultMaterials();
 
         GameObject segment = new GameObject($"Segment_{patternType}");
 
-        // Crear suelo
         CreateGround(segment.transform);
 
-        // Generar patrón según tipo
         switch (patternType)
         {
             case 0:
@@ -122,25 +115,17 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         ground.transform.localPosition = new Vector3(0, -0.5f, segmentLength / 2);
         ground.transform.localScale = new Vector3(segmentWidth, 1f, segmentLength);
         ground.GetComponent<Renderer>().material = groundMaterial;
-
-        // El suelo no debe ser trigger
         ground.GetComponent<Collider>().isTrigger = false;
     }
 
-    // Patrón 0: Vacío (descanso)
-    void CreatePattern_Empty(Transform parent)
-    {
-        // Solo suelo, perfecto para descansar
-    }
+    void CreatePattern_Empty(Transform parent) { }
 
-    // Patrón 1: Torres simples
     void CreatePattern_SimpleTowers(Transform parent)
     {
         CreateTower(parent, new Vector3(-6, 0, 8));
         CreateTower(parent, new Vector3(6, 0, 15));
     }
 
-    // Patrón 2: Muros bajos
     void CreatePattern_LowWalls(Transform parent)
     {
         CreateWall(parent, new Vector3(-4, 1, 5), new Vector3(3, 2, 2));
@@ -149,7 +134,6 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         CreateTower(parent, new Vector3(-7, 0, 10));
     }
 
-    // Patrón 3: Bloques flotantes
     void CreatePattern_FloatingBlocks(Transform parent)
     {
         CreateFloatingBlock(parent, new Vector3(-3, 4, 6), new Vector3(2, 2, 2));
@@ -157,22 +141,15 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         CreateFloatingBlock(parent, new Vector3(-2, 6, 15), new Vector3(3, 2, 2));
     }
 
-    // Patrón 4: Túnel
     void CreatePattern_Tunnel(Transform parent)
     {
-        // Muros laterales
         CreateWall(parent, new Vector3(-9, 3, 10), new Vector3(1, 6, segmentLength));
         CreateWall(parent, new Vector3(9, 3, 10), new Vector3(1, 6, segmentLength));
-
-        // Techo
         CreateCeiling(parent, new Vector3(0, 7, 10), new Vector3(segmentWidth, 1, segmentLength));
-
-        // Torres dentro del túnel
         CreateTower(parent, new Vector3(-4, 0, 7));
         CreateTower(parent, new Vector3(4, 0, 13));
     }
 
-    // Patrón 5: Mixto
     void CreatePattern_Mixed(Transform parent)
     {
         CreateTower(parent, new Vector3(-6, 0, 5));
@@ -181,7 +158,6 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         CreateTower(parent, new Vector3(5, 0, 16));
     }
 
-    // Patrón 6: Zigzag vertical
     void CreatePattern_Zigzag(Transform parent)
     {
         CreateFloatingBlock(parent, new Vector3(-5, 3, 5), new Vector3(4, 2, 2));
@@ -189,7 +165,6 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         CreateFloatingBlock(parent, new Vector3(-5, 4, 15), new Vector3(4, 2, 2));
     }
 
-    // Patrón aleatorio
     void CreatePattern_Random(Transform parent)
     {
         int numObstacles = Random.Range(2, 5);
@@ -223,12 +198,8 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         tower.transform.localPosition = localPos;
         tower.transform.localScale = new Vector3(1.5f, 2f, 1.5f);
         tower.GetComponent<Renderer>().material = towerMaterial;
-
-        // Configurar como obstáculo
         tower.tag = "Enemy";
         tower.GetComponent<Collider>().isTrigger = true;
-
-        // Añadir script de torreta
         EnemyTurret turret = tower.AddComponent<EnemyTurret>();
     }
 

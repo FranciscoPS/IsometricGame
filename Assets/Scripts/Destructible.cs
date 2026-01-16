@@ -26,21 +26,17 @@ public class Destructible : MonoBehaviour
 
     void Die()
     {
-        // Añadir puntos al destruirse
         if (GameManager.Instance != null)
         {
             GameManager.Instance.AddScore(scoreValue);
         }
 
-        // Crear efecto simple de explosión (cambiar color brevemente)
         CreateSimpleExplosion();
-
         Destroy(gameObject);
     }
 
     void CreateSimpleExplosion()
     {
-        // Crear partículas simples
         GameObject explosion = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         explosion.transform.position = transform.position;
         explosion.transform.localScale = Vector3.one * 2f;

@@ -10,7 +10,6 @@ public class CameraSetup : MonoBehaviour
 
     void Start()
     {
-        // Configurar rotación isométrica
         transform.rotation = Quaternion.Euler(rotation);
 
         if (target != null && followTarget)
@@ -27,7 +26,6 @@ public class CameraSetup : MonoBehaviour
     {
         if (target != null && followTarget)
         {
-            // Seguir al jugador manteniendo el offset
             Vector3 desiredPosition = target.position + offset;
             transform.position = desiredPosition;
         }

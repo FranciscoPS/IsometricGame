@@ -16,25 +16,12 @@ public class GameSetup : MonoBehaviour
     [ContextMenu("Setup Complete Scene")]
     public void SetupCompleteScene()
     {
-        Debug.Log("Setting up Zaxxon prototype scene...");
-
         GameObject player = SetupPlayer();
         SetupCamera(player.transform);
         SetupLevelManager();
         SetupBoundaries();
         SetupUI();
         SetupGameManager();
-
-        // 7. Configure Tags and Layers
-        Debug.Log("⚠️ IMPORTANTE: Asegúrate de crear los siguientes Tags en Unity:");
-        Debug.Log("- Player");
-        Debug.Log("- Enemy");
-        Debug.Log("- Obstacle");
-        Debug.Log("- Boundary");
-        Debug.Log("- PlayerBullet");
-        Debug.Log("- EnemyBullet");
-
-        Debug.Log("✅ Scene setup complete! Press Play to test.");
     }
 
     GameObject SetupPlayer()
@@ -49,7 +36,6 @@ public class GameSetup : MonoBehaviour
             player.transform.position = new Vector3(0, 3, 0);
             player.transform.localScale = new Vector3(1, 0.5f, 1.5f);
 
-            // Material azul
             Shader shader = Shader.Find("Universal Render Pipeline/Lit");
             if (shader == null)
                 shader = Shader.Find("Standard");
@@ -57,15 +43,12 @@ public class GameSetup : MonoBehaviour
             mat.color = Color.blue;
             player.GetComponent<Renderer>().material = mat;
 
-            // Collider
             BoxCollider collider = player.GetComponent<BoxCollider>();
             collider.isTrigger = true;
 
-            // Scripts
             player.AddComponent<PlayerController>();
             player.AddComponent<PlayerShadow>();
 
-            // Asignar bullet prefab
             PlayerController controller = player.GetComponent<PlayerController>();
             controller.bulletPrefab = BulletFactory.GetPlayerBulletPrefab();
         }
@@ -149,7 +132,6 @@ public class GameSetup : MonoBehaviour
             canvasObj.AddComponent<UnityEngine.UI.GraphicRaycaster>();
         }
 
-        // Score Text
         CreateUIText(
             canvas.transform,
             "ScoreText",
@@ -159,7 +141,6 @@ public class GameSetup : MonoBehaviour
             "Score: 0"
         );
 
-        // Health Text
         CreateUIText(
             canvas.transform,
             "HealthText",
@@ -169,13 +150,8 @@ public class GameSetup : MonoBehaviour
             "Health: 3"
         );
 
-        // Height Indicator
         CreateHeightIndicator(canvas.transform);
-
-        // Game Over Panel
         CreateGameOverPanel(canvas.transform);
-
-        Debug.Log("✅ UI configured");
     }
 
     void CreateUIText(
@@ -228,7 +204,6 @@ public class GameSetup : MonoBehaviour
         UnityEngine.UI.Slider slider = indicatorObj.AddComponent<UnityEngine.UI.Slider>();
         slider.direction = UnityEngine.UI.Slider.Direction.BottomToTop;
 
-        // Background
         GameObject bg = new GameObject("Background");
         bg.transform.SetParent(indicatorObj.transform);
         RectTransform bgRect = bg.AddComponent<RectTransform>();
@@ -238,7 +213,7 @@ public class GameSetup : MonoBehaviour
         UnityEngine.UI.Image bgImage = bg.AddComponent<UnityEngine.UI.Image>();
         bgImage.color = new Color(0.2f, 0.2f, 0.2f, 0.5f);
 
-        // Fill Area
+
         GameObject fillArea = new GameObject("Fill Area");
         fillArea.transform.SetParent(indicatorObj.transform);
         RectTransform fillAreaRect = fillArea.AddComponent<RectTransform>();
@@ -246,7 +221,6 @@ public class GameSetup : MonoBehaviour
         fillAreaRect.anchorMax = Vector2.one;
         fillAreaRect.sizeDelta = Vector2.zero;
 
-        // Fill
         GameObject fill = new GameObject("Fill");
         fill.transform.SetParent(fillArea.transform);
         RectTransform fillRect = fill.AddComponent<RectTransform>();
@@ -259,7 +233,6 @@ public class GameSetup : MonoBehaviour
         slider.fillRect = fillRect;
         slider.targetGraphic = fillImage;
 
-        // Add HeightIndicator script
         HeightIndicator heightScript = indicatorObj.AddComponent<HeightIndicator>();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -286,7 +259,6 @@ public class GameSetup : MonoBehaviour
         UnityEngine.UI.Image image = panel.AddComponent<UnityEngine.UI.Image>();
         image.color = new Color(0, 0, 0, 0.8f);
 
-        // Game Over Text
         CreateUIText(
             panel.transform,
             "GameOverText",
@@ -302,7 +274,6 @@ public class GameSetup : MonoBehaviour
         goRect.pivot = new Vector2(0.5f, 0.5f);
         goText.GetComponent<UnityEngine.UI.Text>().fontSize = 40;
 
-        // Final Score Text
         CreateUIText(
             panel.transform,
             "FinalScoreText",
@@ -318,7 +289,6 @@ public class GameSetup : MonoBehaviour
         scoreRect.pivot = new Vector2(0.5f, 0.5f);
         scoreText.GetComponent<UnityEngine.UI.Text>().fontSize = 24;
 
-        // Restart Button
         CreateButton(panel.transform, "RestartButton", new Vector2(0, -100), "RESTART");
 
         panel.SetActive(false);
@@ -371,7 +341,6 @@ public class GameSetup : MonoBehaviour
             gm = gmObj.AddComponent<GameManager>();
         }
 
-        // Asignar referencias UI
         Canvas canvas = FindFirstObjectByType<Canvas>();
         if (canvas != null)
         {
@@ -398,7 +367,6 @@ public class GameSetup : MonoBehaviour
                     gm.finalScoreText = finalScoreText.GetComponent<UnityEngine.UI.Text>();
                 }
 
-                // Conectar botón restart
                 Transform restartButton = gameOverPanel.Find("RestartButton");
                 if (restartButton != null)
                 {

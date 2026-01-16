@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
         currentHealth = maxHealth;
 
-        // Crear firePoint si no existe
         if (firePoint == null)
         {
             GameObject fp = new GameObject("FirePoint");
@@ -56,10 +55,8 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(horizontal, vertical, 0) * moveSpeed * Time.deltaTime;
         Vector3 newPosition = transform.position + movement;
 
-        // Limitar movimiento horizontal
         newPosition.x = Mathf.Clamp(newPosition.x, -horizontalLimit, horizontalLimit);
 
-        // Limitar altura
         newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
 
         transform.position = newPosition;

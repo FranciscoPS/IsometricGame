@@ -21,7 +21,6 @@ public class Bullet : MonoBehaviour
         rb.useGravity = false;
         rb.linearVelocity = Vector3.forward * speed;
 
-        // Auto-destruir después del tiempo de vida
         Destroy(gameObject, lifetime);
     }
 
@@ -29,17 +28,14 @@ public class Bullet : MonoBehaviour
     {
         if (isPlayerBullet)
         {
-            // Bala del jugador
             if (other.CompareTag("Enemy") || other.CompareTag("Obstacle"))
             {
-                // Dar daño si el objeto tiene componente destructible
                 Destructible dest = other.GetComponent<Destructible>();
                 if (dest != null)
                 {
                     dest.TakeDamage(damage);
                 }
 
-                // Añadir puntos
                 if (GameManager.Instance != null)
                 {
                     GameManager.Instance.AddScore(10);
@@ -50,7 +46,6 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            // Bala enemiga
             if (other.CompareTag("Player"))
             {
                 PlayerController player = other.GetComponent<PlayerController>();
@@ -62,7 +57,6 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        // Destruir al chocar con obstáculos sólidos
         if (other.CompareTag("Obstacle") || other.CompareTag("Boundary"))
         {
             Destroy(gameObject);

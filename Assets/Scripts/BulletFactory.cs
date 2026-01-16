@@ -35,7 +35,6 @@ public class BulletFactory : MonoBehaviour
         bullet.name = name;
         bullet.transform.localScale = Vector3.one * 0.3f;
 
-        // Material
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
         if (shader == null)
             shader = Shader.Find("Standard");
@@ -45,7 +44,6 @@ public class BulletFactory : MonoBehaviour
         mat.SetColor("_EmissionColor", color * 0.5f);
         bullet.GetComponent<Renderer>().material = mat;
 
-        // Physics
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -54,21 +52,17 @@ public class BulletFactory : MonoBehaviour
         rb.useGravity = false;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
-        // Collider
         SphereCollider collider = bullet.GetComponent<SphereCollider>();
         collider.isTrigger = true;
 
-        // Script
         Bullet bulletScript = bullet.AddComponent<Bullet>();
         bulletScript.isPlayerBullet = isPlayerBullet;
         bulletScript.speed = 20f;
         bulletScript.lifetime = 5f;
         bulletScript.damage = 1;
 
-        // Tag
         bullet.tag = isPlayerBullet ? "PlayerBullet" : "EnemyBullet";
 
-        // Desactivar para usar como prefab
         bullet.SetActive(false);
 
         return bullet;

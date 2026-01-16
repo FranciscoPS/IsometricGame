@@ -18,7 +18,6 @@ public class SegmentTester : MonoBehaviour
 
     void Start()
     {
-        // Obtener o crear el generador
         generator = GetComponent<ProceduralSegmentGenerator>();
         if (generator == null)
         {
@@ -34,23 +33,15 @@ public class SegmentTester : MonoBehaviour
     [ContextMenu("Generate All Patterns")]
     public void GenerateAllPatterns()
     {
-        Debug.Log("Generando todos los patrones de segmentos...");
-
-        // Limpiar segmentos anteriores
         ClearAllSegments();
 
-        // Generar cada patrón
         for (int i = 0; i < 8; i++)
         {
             GameObject segment = generator.GenerateSegment(i);
             segment.transform.position = new Vector3(0, 0, i * spacing);
             segment.transform.SetParent(transform);
             segment.name = $"Segment_{i}_{GetPatternName(i)}";
-
-            Debug.Log($"✓ Generado: {segment.name}");
         }
-
-        Debug.Log("¡Todos los patrones generados! Mueve la cámara para verlos.");
     }
 
     [ContextMenu("Generate Single Pattern")]
@@ -65,15 +56,10 @@ public class SegmentTester : MonoBehaviour
     [ContextMenu("Clear All Segments")]
     public void ClearAllSegments()
     {
-        Debug.Log("Limpiando segmentos...");
-
-        // Destruir todos los hijos
         while (transform.childCount > 0)
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
-
-        Debug.Log("✓ Segmentos limpiados");
     }
 
     [ContextMenu("Generate Random Pattern")]

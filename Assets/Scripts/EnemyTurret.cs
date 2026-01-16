@@ -14,19 +14,16 @@ public class EnemyTurret : MonoBehaviour
 
     void Start()
     {
-        // Buscar al jugador
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             player = playerObj.transform;
         }
 
-        // Crear firePoint
         firePoint = new GameObject("FirePoint");
         firePoint.transform.SetParent(transform);
         firePoint.transform.localPosition = new Vector3(0, 1, 0);
 
-        // Crear prefab de bala si no existe
         if (bulletPrefab == null)
         {
             bulletPrefab = CreateEnemyBulletPrefab();
@@ -39,7 +36,6 @@ public class EnemyTurret : MonoBehaviour
         {
             float distance = Vector3.Distance(transform.position, player.position);
 
-            // Solo disparar si el jugador está en rango y adelante de la torreta
             if (distance < detectionRange && player.position.z < transform.position.z)
             {
                 Shoot();
@@ -84,7 +80,6 @@ public class EnemyTurret : MonoBehaviour
         bullet.name = "EnemyBullet";
         bullet.transform.localScale = Vector3.one * 0.3f;
 
-        // Material rojo
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
         if (shader == null)
             shader = Shader.Find("Standard");
@@ -92,21 +87,18 @@ public class EnemyTurret : MonoBehaviour
         mat.color = Color.red;
         bullet.GetComponent<Renderer>().material = mat;
 
-        // Physics
         Rigidbody rb = bullet.AddComponent<Rigidbody>();
         rb.useGravity = false;
 
         SphereCollider collider = bullet.GetComponent<SphereCollider>();
         collider.isTrigger = true;
 
-        // Script
         Bullet bulletScript = bullet.AddComponent<Bullet>();
         bulletScript.isPlayerBullet = false;
         bulletScript.damage = 1;
 
         bullet.tag = "EnemyBullet";
 
-        // Desactivar para usar como prefab
         bullet.SetActive(false);
 
         return bullet;
@@ -114,7 +106,6 @@ public class EnemyTurret : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // Visualizar rango de detección
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
     }

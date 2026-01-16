@@ -101,26 +101,5 @@ public class LevelTest : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (levelManager != null && levelManager.GetScrollSpeed() > 0)
-            {
-                StopLevelTest();
-            }
-            else
-            {
-                StartLevelTest();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            IncreaseSpeed();
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            DecreaseSpeed();
-        }
     }
 }

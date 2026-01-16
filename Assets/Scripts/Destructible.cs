@@ -39,22 +39,44 @@ public class Destructible : MonoBehaviour
     {
         GameObject explosion = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         explosion.transform.position = transform.position;
-        explosion.transform.localScale = Vector3.one * 2f;
+        explosion.transform.localScale = Vector3.one * 0.5f;
 
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
         if (shader == null)
             shader = Shader.Find("Standard");
         Material mat = new Material(shader);
-        mat.color = Color.yellow;
-        mat.SetFloat("_Mode", 3);
-        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-        mat.SetInt("_ZWrite", 0);
-        mat.EnableKeyword("_ALPHABLEND_ON");
-        mat.renderQueue = 3000;
+        mat.color = new Color(1f, 0.8f, 0f, 0.8f);
+        mat.EnableKeyword("_EMISSION");
+        mat.SetColor("_EmissionColor", Color.yellow * 2f);
         explosion.GetComponent<Renderer>().material = mat;
 
         Destroy(explosion.GetComponent<Collider>());
-        Destroy(explosion, 0.2f);
+        
+        ExplosionEffect effect = explosion.AddComponent<ExplosionEffect>();
+        Destroy(explosion, 0.5f);
+    }
+}
+
+public class ExplosionEffect : MonoBehaviour
+{
+    private float expansionSpeed = 8f;
+    private float maxSize = 3f;
+    
+    void Update()
+    {
+        transform.localScale += Vector3.one * expansionSpeed * Time.deltaTime;
+        
+        if (transform.localScale.x >= maxSize)
+        {
+            Destroy(gameObject);
+        }
+        
+        Renderer rend = GetComponent<Renderer>();
+        if (rend != null)
+        {
+            Color col = rend.material.color;
+            col.a -= Time.deltaTime * 2f;
+            rend.material.color = col;
+        }
     }
 }

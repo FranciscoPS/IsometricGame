@@ -199,8 +199,14 @@ public class ProceduralSegmentGenerator : MonoBehaviour
         tower.transform.localScale = new Vector3(1.5f, 2f, 1.5f);
         tower.GetComponent<Renderer>().material = towerMaterial;
         tower.tag = "Enemy";
-        tower.GetComponent<Collider>().isTrigger = true;
+        
+        CapsuleCollider col = tower.GetComponent<CapsuleCollider>();
+        col.isTrigger = true;
+        
         EnemyTurret turret = tower.AddComponent<EnemyTurret>();
+        Destructible destructible = tower.AddComponent<Destructible>();
+        destructible.maxHealth = 3;
+        destructible.scoreValue = 50;
     }
 
     void CreateWall(Transform parent, Vector3 localPos, Vector3 scale)
@@ -214,6 +220,10 @@ public class ProceduralSegmentGenerator : MonoBehaviour
 
         wall.tag = "Obstacle";
         wall.GetComponent<Collider>().isTrigger = true;
+        
+        Destructible destructible = wall.AddComponent<Destructible>();
+        destructible.maxHealth = 2;
+        destructible.scoreValue = 20;
     }
 
     void CreateFloatingBlock(Transform parent, Vector3 localPos, Vector3 scale)
@@ -229,6 +239,10 @@ public class ProceduralSegmentGenerator : MonoBehaviour
 
         block.tag = "Obstacle";
         block.GetComponent<Collider>().isTrigger = true;
+        
+        Destructible destructible = block.AddComponent<Destructible>();
+        destructible.maxHealth = 2;
+        destructible.scoreValue = 15;
     }
 
     void CreateCeiling(Transform parent, Vector3 localPos, Vector3 scale)

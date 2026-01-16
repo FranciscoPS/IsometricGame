@@ -19,7 +19,11 @@ public class Bullet : MonoBehaviour
         }
 
         rb.useGravity = false;
-        rb.linearVelocity = Vector3.forward * speed;
+        
+        if (isPlayerBullet)
+        {
+            rb.linearVelocity = Vector3.forward * speed;
+        }
 
         Destroy(gameObject, lifetime);
     }

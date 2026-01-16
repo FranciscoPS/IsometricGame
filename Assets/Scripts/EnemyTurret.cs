@@ -53,8 +53,9 @@ public class EnemyTurret : MonoBehaviour
                 firePoint.transform.position,
                 Quaternion.identity
             );
+            
+            bullet.SetActive(true);
 
-            // Calcular dirección hacia el jugador
             Vector3 direction = (player.position - firePoint.transform.position).normalized;
 
             Rigidbody rb = bullet.GetComponent<Rigidbody>();

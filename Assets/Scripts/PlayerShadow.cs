@@ -49,6 +49,18 @@ public class PlayerShadow : MonoBehaviour
     {
         if (shadowObject != null && player != null)
         {
+            PlayerController playerController = player.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                Renderer shadowRenderer = shadowObject.GetComponent<Renderer>();
+                if (shadowRenderer != null)
+                {
+                    Renderer[] playerRenderers = player.GetComponentsInChildren<Renderer>();
+                    bool playerVisible = playerRenderers.Length > 0 && playerRenderers[0].enabled;
+                    shadowRenderer.enabled = playerVisible;
+                }
+            }
+            
             Vector3 shadowPos = player.position;
             shadowPos.y = groundLevel + 0.01f;
             shadowObject.transform.position = shadowPos;

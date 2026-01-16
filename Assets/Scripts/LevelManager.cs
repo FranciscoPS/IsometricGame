@@ -19,6 +19,8 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         InitializeReferences();
+
+        nextSegmentZ = 0f;
         
         for (int i = 0; i < activeSegments; i++)
         {

@@ -45,7 +45,9 @@ public class Destructible : MonoBehaviour
         explosion.transform.position = transform.position;
         explosion.transform.localScale = Vector3.one * 2f;
         
-        Material mat = new Material(Shader.Find("Standard"));
+        Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+        if (shader == null) shader = Shader.Find("Standard");
+        Material mat = new Material(shader);
         mat.color = Color.yellow;
         mat.SetFloat("_Mode", 3);
         mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);

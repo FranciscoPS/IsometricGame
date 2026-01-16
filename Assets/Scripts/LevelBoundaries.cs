@@ -41,7 +41,9 @@ public class LevelBoundaries : MonoBehaviour
         }
         else
         {
-            Material mat = new Material(Shader.Find("Standard"));
+            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null) shader = Shader.Find("Standard");
+            Material mat = new Material(shader);
             mat.color = new Color(1, 0, 0, 0.3f); // Rojo semi-transparente
             mat.SetFloat("_Mode", 3);
             mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);

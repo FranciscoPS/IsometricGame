@@ -36,7 +36,9 @@ public class BulletFactory : MonoBehaviour
         bullet.transform.localScale = Vector3.one * 0.3f;
 
         // Material
-        Material mat = new Material(Shader.Find("Standard"));
+        Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+        if (shader == null) shader = Shader.Find("Standard");
+        Material mat = new Material(shader);
         mat.color = color;
         mat.EnableKeyword("_EMISSION");
         mat.SetColor("_EmissionColor", color * 0.5f);

@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         UpdateUI();
 
         // Buscar LevelManager
-        levelManager = FindObjectOfType<LevelManager>();
+        levelManager = FindFirstObjectByType<LevelManager>();
     }
 
     void Update()

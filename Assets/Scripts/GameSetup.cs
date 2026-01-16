@@ -61,7 +61,9 @@ public class GameSetup : MonoBehaviour
             player.transform.localScale = new Vector3(1, 0.5f, 1.5f);
 
             // Material azul
-            Material mat = new Material(Shader.Find("Standard"));
+            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null) shader = Shader.Find("Standard");
+            Material mat = new Material(shader);
             mat.color = Color.blue;
             player.GetComponent<Renderer>().material = mat;
 
@@ -155,7 +157,7 @@ public class GameSetup : MonoBehaviour
 
     void SetupUI()
     {
-        Canvas canvas = FindObjectOfType<Canvas>();
+        Canvas canvas = FindFirstObjectByType<Canvas>();
         if (canvas == null)
         {
             GameObject canvasObj = new GameObject("Canvas");
@@ -350,7 +352,7 @@ public class GameSetup : MonoBehaviour
         }
 
         // Asignar referencias UI
-        Canvas canvas = FindObjectOfType<Canvas>();
+        Canvas canvas = FindFirstObjectByType<Canvas>();
         if (canvas != null)
         {
             Transform scoreText = canvas.transform.Find("ScoreText");

@@ -31,7 +31,9 @@ public class PlayerShadow : MonoBehaviour
         shadowObject.transform.rotation = Quaternion.Euler(90, 0, 0);
         
         // Crear material semi-transparente
-        Material shadowMat = new Material(Shader.Find("Standard"));
+        Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+        if (shader == null) shader = Shader.Find("Standard");
+        Material shadowMat = new Material(shader);
         shadowMat.color = new Color(0, 0, 0, 0.5f);
         shadowMat.SetFloat("_Mode", 3); // Transparent
         shadowMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);

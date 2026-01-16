@@ -25,6 +25,12 @@ public class ProceduralSegmentGenerator : MonoBehaviour
     void Start()
     {
         CreateDefaultMaterials();
+        
+        // Debug: mostrar qué shader se está usando
+        if (groundMaterial != null && groundMaterial.shader != null)
+        {
+            Debug.Log($"Shader en uso: {groundMaterial.shader.name}");
+        }
     }
 
     void CreateDefaultMaterials()
@@ -56,13 +62,23 @@ public class ProceduralSegmentGenerator : MonoBehaviour
 
     Material CreateMaterial(Color color)
     {
-        Material mat = new Material(Shader.Find("Standard"));
+        // Intentar shaders de URP primero, luego fallbacks
+        Shader shader = Shader.Find("Universal Render Pipeline/Simple Lit");
+        if (shader == null) shader = Shader.Find("Universal Render Pipeline/Lit");
+        if (shader == null) shader = Shader.Find("Standard");
+        if (shader == null) shader = Shader.Find("Diffuse");
+        if (shader == null) shader = Shader.Find("Unlit/Color");
+        
+        Material mat = new Material(shader != null ? shader : Shader.Find("Sprites/Default"));
         mat.color = color;
         return mat;
     }
 
     public GameObject GenerateSegment(int patternType)
     {
+        // Asegurar que los materiales estén inicializados
+        CreateDefaultMaterials();
+        
         GameObject segment = new GameObject($"Segment_{patternType}");
         
         // Crear suelo

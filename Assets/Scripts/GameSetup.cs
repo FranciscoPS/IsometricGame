@@ -21,7 +21,7 @@ public class GameSetup : MonoBehaviour
         SetupCamera(player.transform);
         SetupLevelManager();
         SetupBoundaries();
-        SetupUI();
+        SetupBasicUI();
         SetupGameManager();
         SetupLighting();
     }
@@ -121,7 +121,7 @@ public class GameSetup : MonoBehaviour
         }
     }
 
-    void SetupUI()
+    void SetupBasicUI()
     {
         Canvas canvas = FindFirstObjectByType<Canvas>();
         if (canvas == null)
@@ -131,6 +131,14 @@ public class GameSetup : MonoBehaviour
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvasObj.AddComponent<UnityEngine.UI.CanvasScaler>();
             canvasObj.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+            
+            // Event System
+            if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
+            {
+                GameObject eventSystem = new GameObject("EventSystem");
+                eventSystem.AddComponent<UnityEngine.EventSystems.EventSystem>();
+                eventSystem.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+            }
         }
 
         CreateUIText(
@@ -152,7 +160,6 @@ public class GameSetup : MonoBehaviour
         );
 
         CreateHeightIndicator(canvas.transform);
-        CreateGameOverPanel(canvas.transform);
     }
 
     void CreateUIText(
@@ -243,58 +250,6 @@ public class GameSetup : MonoBehaviour
         heightScript.heightSlider = slider;
     }
 
-    void CreateGameOverPanel(Transform parent)
-    {
-        Transform existing = parent.Find("GameOverPanel");
-        if (existing != null)
-            return;
-
-        GameObject panel = new GameObject("GameOverPanel");
-        panel.transform.SetParent(parent);
-
-        RectTransform rect = panel.AddComponent<RectTransform>();
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.sizeDelta = Vector2.zero;
-
-        UnityEngine.UI.Image image = panel.AddComponent<UnityEngine.UI.Image>();
-        image.color = new Color(0, 0, 0, 0.8f);
-
-        CreateUIText(
-            panel.transform,
-            "GameOverText",
-            new Vector2(0, 50),
-            new Vector2(400, 60),
-            TextAnchor.MiddleCenter,
-            "GAME OVER"
-        );
-        GameObject goText = panel.transform.Find("GameOverText").gameObject;
-        RectTransform goRect = goText.GetComponent<RectTransform>();
-        goRect.anchorMin = new Vector2(0.5f, 0.5f);
-        goRect.anchorMax = new Vector2(0.5f, 0.5f);
-        goRect.pivot = new Vector2(0.5f, 0.5f);
-        goText.GetComponent<UnityEngine.UI.Text>().fontSize = 40;
-
-        CreateUIText(
-            panel.transform,
-            "FinalScoreText",
-            new Vector2(0, -20),
-            new Vector2(400, 40),
-            TextAnchor.MiddleCenter,
-            "Final Score: 0"
-        );
-        GameObject scoreText = panel.transform.Find("FinalScoreText").gameObject;
-        RectTransform scoreRect = scoreText.GetComponent<RectTransform>();
-        scoreRect.anchorMin = new Vector2(0.5f, 0.5f);
-        scoreRect.anchorMax = new Vector2(0.5f, 0.5f);
-        scoreRect.pivot = new Vector2(0.5f, 0.5f);
-        scoreText.GetComponent<UnityEngine.UI.Text>().fontSize = 24;
-
-        CreateButton(panel.transform, "RestartButton", new Vector2(0, -100), "RESTART");
-
-        panel.SetActive(false);
-    }
-
     void CreateButton(Transform parent, string name, Vector2 anchoredPosition, string text)
     {
         GameObject buttonObj = new GameObject(name);
@@ -334,48 +289,11 @@ public class GameSetup : MonoBehaviour
         if (gmObj == null)
         {
             gmObj = new GameObject("GameManager");
+            gmObj.AddComponent<GameManager>();
         }
-
-        GameManager gm = gmObj.GetComponent<GameManager>();
-        if (gm == null)
+        else if (gmObj.GetComponent<GameManager>() == null)
         {
-            gm = gmObj.AddComponent<GameManager>();
-        }
-
-        Canvas canvas = FindFirstObjectByType<Canvas>();
-        if (canvas != null)
-        {
-            Transform scoreText = canvas.transform.Find("ScoreText");
-            if (scoreText != null)
-            {
-                gm.scoreText = scoreText.GetComponent<TextMeshProUGUI>();
-            }
-
-            Transform healthText = canvas.transform.Find("HealthText");
-            if (healthText != null)
-            {
-                gm.healthText = healthText.GetComponent<TextMeshProUGUI>();
-            }
-
-            Transform gameOverPanel = canvas.transform.Find("GameOverPanel");
-            if (gameOverPanel != null)
-            {
-                gm.gameOverPanel = gameOverPanel.gameObject;
-
-                Transform finalScoreText = gameOverPanel.Find("FinalScoreText");
-                if (finalScoreText != null)
-                {
-                    gm.finalScoreText = finalScoreText.GetComponent<TextMeshProUGUI>();
-                }
-
-                Transform restartButton = gameOverPanel.Find("RestartButton");
-                if (restartButton != null)
-                {
-                    UnityEngine.UI.Button button =
-                        restartButton.GetComponent<UnityEngine.UI.Button>();
-                    button.onClick.AddListener(gm.RestartGame);
-                }
-            }
+            gmObj.AddComponent<GameManager>();
         }
     }
 

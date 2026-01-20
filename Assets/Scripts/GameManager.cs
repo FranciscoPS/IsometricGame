@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -10,13 +9,11 @@ public class GameManager : MonoBehaviour
     [Header("UI References")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI healthText;
-    public TextMeshProUGUI gameOverText;
-    public GameObject gameOverPanel;
-    public TextMeshProUGUI finalScoreText;
-    public Button restartButton;
 
     [Header("Game Settings")]
     public int startingHealth = 3;
+    public float gameOverDelay = 2f; // Segundos antes de volver al menú
+    
     private int currentScore = 0;
     private int currentHealth;
     private bool isGameOver = false;
@@ -49,11 +46,6 @@ public class GameManager : MonoBehaviour
         currentSpeed = startSpeed;
         isGameOver = false;
 
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false);
-        }
-
         UpdateUI();
     }
     
@@ -79,25 +71,6 @@ public class GameManager : MonoBehaviour
             if (healthObj != null)
             {
                 healthText = healthObj.GetComponent<TextMeshProUGUI>();
-            }
-        }
-        
-        if (gameOverPanel == null)
-        {
-            Transform canvasTransform = FindFirstObjectByType<Canvas>()?.transform;
-            if (canvasTransform != null)
-            {
-                Transform panelTransform = canvasTransform.Find("GameOverPanel");
-                if (panelTransform != null)
-                {
-                    gameOverPanel = panelTransform.gameObject;
-                    
-                    Transform finalScoreTransform = panelTransform.Find("FinalScoreText");
-                    if (finalScoreTransform != null)
-                    {
-                        finalScoreText = finalScoreTransform.GetComponent<TextMeshProUGUI>();
-                    }
-                }
             }
         }
     }
@@ -154,58 +127,17 @@ public class GameManager : MonoBehaviour
             return;
 
         isGameOver = true;
-
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(true);
-        }
         
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(true);
-        }
-
-        if (finalScoreText != null)
-        {
-            finalScoreText.text = $"Final Score: {currentScore}";
-        }
+        Debug.Log($"Game Over! Final Score: {currentScore}");
+        
+        // Volver al menú principal después de un delay
+        Invoke(nameof(LoadMainMenu), gameOverDelay);
     }
 
-    public void RestartGame()
+    void LoadMainMenu()
     {
-        isGameOver = false;
-        currentScore = 0;
-        currentHealth = startingHealth;
-        currentSpeed = startSpeed;
-        
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(false);
-        }
-        
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false);
-        }
-        
-        if (levelManager != null)
-        {
-            levelManager.ResetLevel();
-            levelManager.SetScrollSpeed(startSpeed);
-        }
-        
-        PlayerController player = FindFirstObjectByType<PlayerController>();
-        if (player != null)
-        {
-            player.ResetPlayer();
-        }
-        
-        UpdateUI();
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 
     public bool IsGameOver()

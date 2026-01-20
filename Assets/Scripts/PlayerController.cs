@@ -37,10 +37,13 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-        inputActions.Gameplay.Enable();
-        inputActions.Gameplay.Move.performed += OnMove;
-        inputActions.Gameplay.Move.canceled += OnMove;
-        inputActions.Gameplay.Fire.performed += OnFire;
+        if (inputActions != null)
+        {
+            inputActions.Gameplay.Enable();
+            inputActions.Gameplay.Move.performed += OnMove;
+            inputActions.Gameplay.Move.canceled += OnMove;
+            inputActions.Gameplay.Fire.performed += OnFire;
+        }
     }
 
     void OnDisable()
@@ -127,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleMovement()
     {
-        if (isDead || isInvulnerable) return;
+        if (isDead) return; // Solo bloquear movimiento si está muerto, NO si está invencible
         
         Vector3 movement = new Vector3(moveInput.x, moveInput.y, 0) * moveSpeed * Time.deltaTime;
         Vector3 newPosition = transform.position + movement;
@@ -140,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     void Shoot()
     {
-        if (isDead) return;
+        if (isDead || isInvulnerable) return; // No disparar durante invencibilidad
         
         if (bulletPrefab != null && firePoint != null)
         {
@@ -180,6 +183,7 @@ public class PlayerController : MonoBehaviour
     System.Collections.IEnumerator RespawnWithInvulnerability()
     {
         isInvulnerable = true;
+        isDead = false; // Permitir movimiento inmediatamente
         
         CreatePlayerExplosion();
         
@@ -315,5 +319,21 @@ public class PlayerController : MonoBehaviour
     public int GetCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public void EnableInput()
+    {
+        if (inputActions != null)
+        {
+            inputActions.Gameplay.Enable();
+        }
+    }
+
+    public void DisableInput()
+    {
+        if (inputActions != null)
+        {
+            inputActions.Gameplay.Disable();
+        }
     }
 }

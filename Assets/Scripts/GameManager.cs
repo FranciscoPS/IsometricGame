@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -9,10 +10,13 @@ public class GameManager : MonoBehaviour
     [Header("UI References")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI healthText;
+    public GameObject gameOverPanel;
+    public TextMeshProUGUI finalScoreText;
+    public Button restartButton;
+    public Button mainMenuButton;
 
     [Header("Game Settings")]
     public int startingHealth = 3;
-    public float gameOverDelay = 2f; // Segundos antes de volver al menú
     
     private int currentScore = 0;
     private int currentHealth;
@@ -73,6 +77,53 @@ public class GameManager : MonoBehaviour
                 healthText = healthObj.GetComponent<TextMeshProUGUI>();
             }
         }
+        
+        if (gameOverPanel == null)
+        {
+            Canvas canvas = FindFirstObjectByType<Canvas>();
+            if (canvas != null)
+            {
+                Transform panel = canvas.transform.Find("GameOverPanel");
+                if (panel != null)
+                {
+                    gameOverPanel = panel.gameObject;
+                    
+                    Transform finalScore = panel.Find("FinalScoreText");
+                    if (finalScore != null)
+                    {
+                        finalScoreText = finalScore.GetComponent<TextMeshProUGUI>();
+                        if (finalScoreText == null)
+                        {
+                            finalScoreText = finalScore.GetComponent<TMPro.TextMeshProUGUI>();
+                        }
+                    }
+                    
+                    Transform restart = panel.Find("RestartButton");
+                    if (restart != null)
+                    {
+                        restartButton = restart.GetComponent<Button>();
+                        if (restartButton != null)
+                        {
+                            restartButton.onClick.RemoveAllListeners();
+                            restartButton.onClick.AddListener(RestartGame);
+                        }
+                    }
+                    
+                    Transform mainMenu = panel.Find("MainMenuButton");
+                    if (mainMenu != null)
+                    {
+                        mainMenuButton = mainMenu.GetComponent<Button>();
+                        if (mainMenuButton != null)
+                        {
+                            mainMenuButton.onClick.RemoveAllListeners();
+                            mainMenuButton.onClick.AddListener(LoadMainMenu);
+                        }
+                    }
+                    
+                    gameOverPanel.SetActive(false);
+                }
+            }
+        }
     }
 
     void Update()
@@ -124,14 +175,57 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         if (isGameOver)
+        {
             return;
+        }
 
         isGameOver = true;
         
-        Debug.Log($"Game Over! Final Score: {currentScore}");
+        // Desactivar input del jugador
+        PlayerController player = FindFirstObjectByType<PlayerController>();
+        if (player != null)
+        {
+            player.DisableInput();
+        }
         
-        // Volver al menú principal después de un delay
-        Invoke(nameof(LoadMainMenu), gameOverDelay);
+        if (finalScoreText != null)
+        {
+            finalScoreText.text = $"Final Score: {currentScore}";
+        }
+        
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        isGameOver = false;
+        currentScore = 0;
+        currentHealth = startingHealth;
+        currentSpeed = startSpeed;
+        
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+        
+        if (levelManager != null)
+        {
+            levelManager.ResetLevel();
+            levelManager.SetScrollSpeed(startSpeed);
+        }
+        
+        PlayerController player = FindFirstObjectByType<PlayerController>();
+        if (player != null)
+        {
+            player.ResetPlayer();
+            player.EnableInput();
+        }
+        
+        UpdateUI();
     }
 
     void LoadMainMenu()

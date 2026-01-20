@@ -141,25 +141,26 @@ public class GameSetup : MonoBehaviour
             }
         }
 
-        CreateUIText(
-            canvas.transform,
-            "ScoreText",
-            new Vector2(10, -10),
-            new Vector2(200, 30),
-            TextAnchor.UpperLeft,
-            "Score: 0"
-        );
+        // CreateUIText(
+        //     canvas.transform,
+        //     "ScoreText",
+        //     new Vector2(10, -10),
+        //     new Vector2(200, 30),
+        //     TextAnchor.UpperLeft,
+        //     "Score: 0"
+        // );
 
-        CreateUIText(
-            canvas.transform,
-            "HealthText",
-            new Vector2(10, -50),
-            new Vector2(200, 30),
-            TextAnchor.UpperLeft,
-            "Health: 3"
-        );
+        // CreateUIText(
+        //     canvas.transform,
+        //     "HealthText",
+        //     new Vector2(10, -50),
+        //     new Vector2(200, 30),
+        //     TextAnchor.UpperLeft,
+        //     "Health: 3"
+        // );
 
         CreateHeightIndicator(canvas.transform);
+        // CreateGameOverPanel(canvas.transform); // Usuario creó el panel manualmente en Unity
     }
 
     void CreateUIText(
@@ -248,6 +249,101 @@ public class GameSetup : MonoBehaviour
             heightScript.player = player.transform;
         }
         heightScript.heightSlider = slider;
+    }
+
+    void CreateGameOverPanel(Transform parent)
+    {
+        Transform existing = parent.Find("GameOverPanel");
+        if (existing != null)
+            return;
+
+        GameObject panel = new GameObject("GameOverPanel");
+        panel.transform.SetParent(parent, false);
+
+        RectTransform rect = panel.AddComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+
+        UnityEngine.UI.Image image = panel.AddComponent<UnityEngine.UI.Image>();
+        image.color = new Color(0, 0, 0, 0.7f); // Semi-transparente
+
+        // Título "GAME OVER"
+        GameObject goText = new GameObject("GameOverText");
+        goText.transform.SetParent(panel.transform, false);
+        
+        RectTransform goRect = goText.AddComponent<RectTransform>();
+        goRect.anchorMin = new Vector2(0.5f, 0.5f);
+        goRect.anchorMax = new Vector2(0.5f, 0.5f);
+        goRect.pivot = new Vector2(0.5f, 0.5f);
+        goRect.anchoredPosition = new Vector2(0, 100);
+        goRect.sizeDelta = new Vector2(600, 100);
+        
+        UnityEngine.UI.Text goTextComp = goText.AddComponent<UnityEngine.UI.Text>();
+        goTextComp.text = "GAME OVER";
+        goTextComp.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        goTextComp.fontSize = 60;
+        goTextComp.color = Color.red;
+        goTextComp.alignment = TextAnchor.MiddleCenter;
+
+        // Texto de Score Final
+        GameObject scoreText = new GameObject("FinalScoreText");
+        scoreText.transform.SetParent(panel.transform, false);
+        
+        RectTransform scoreRect = scoreText.AddComponent<RectTransform>();
+        scoreRect.anchorMin = new Vector2(0.5f, 0.5f);
+        scoreRect.anchorMax = new Vector2(0.5f, 0.5f);
+        scoreRect.pivot = new Vector2(0.5f, 0.5f);
+        scoreRect.anchoredPosition = new Vector2(0, 20);
+        scoreRect.sizeDelta = new Vector2(500, 60);
+        
+        UnityEngine.UI.Text scoreTextComp = scoreText.AddComponent<UnityEngine.UI.Text>();
+        scoreTextComp.text = "Final Score: 0";
+        scoreTextComp.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        scoreTextComp.fontSize = 36;
+        scoreTextComp.color = Color.white;
+        scoreTextComp.alignment = TextAnchor.MiddleCenter;
+
+        // Botones
+        CreateCenteredButton(panel.transform, "RestartButton", new Vector2(0, -60), "RESTART");
+        CreateCenteredButton(panel.transform, "MainMenuButton", new Vector2(0, -140), "MAIN MENU");
+
+        panel.SetActive(false);
+    }
+
+    void CreateCenteredButton(Transform parent, string name, Vector2 anchoredPosition, string text)
+    {
+        GameObject buttonObj = new GameObject(name);
+        buttonObj.transform.SetParent(parent, false);
+
+        RectTransform rect = buttonObj.AddComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0.5f, 0.5f);
+        rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.anchoredPosition = anchoredPosition;
+        rect.sizeDelta = new Vector2(250, 60);
+
+        UnityEngine.UI.Image image = buttonObj.AddComponent<UnityEngine.UI.Image>();
+        image.color = new Color(0.2f, 0.6f, 0.2f);
+
+        UnityEngine.UI.Button button = buttonObj.AddComponent<UnityEngine.UI.Button>();
+
+        GameObject textObj = new GameObject("Text");
+        textObj.transform.SetParent(buttonObj.transform, false);
+
+        RectTransform textRect = textObj.AddComponent<RectTransform>();
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.offsetMin = Vector2.zero;
+        textRect.offsetMax = Vector2.zero;
+
+        UnityEngine.UI.Text textComponent = textObj.AddComponent<UnityEngine.UI.Text>();
+        textComponent.text = text;
+        textComponent.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        textComponent.fontSize = 28;
+        textComponent.color = Color.white;
+        textComponent.alignment = TextAnchor.MiddleCenter;
     }
 
     void CreateButton(Transform parent, string name, Vector2 anchoredPosition, string text)
